@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const { startScraping, stopScraping } = require('../services/scraperService');
-
+const { getTweetsWithPagination } = require('../models/tweetModel');
 
 router.get('/start', (req, res) => {
   try {
@@ -24,5 +24,17 @@ router.get('/stop', (req, res) => {
     res.status(500).json({ error: 'Internal server error' });
   }
 });
+
+router.get('/tweets', async (req, res) => {
+    try {
+      const page = parseInt(req.query.page) || 1;
+      const pageSize = parseInt(req.query.pageSize) || 10; // Default page size is 10
+      const tweets = await getTweetsWithPagination(page, pageSize);
+      res.json(tweets);
+    } catch (error) {
+      console.error('Error fetching tweets:', error);
+      res.status(500).json({ error: 'Internal server error' });
+    }
+  });
 
 module.exports = router;

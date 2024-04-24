@@ -36,7 +36,21 @@ async function getTweets(page, pageSize) {
   }
 }
 
+async function getTweetsWithPagination(page, pageSize) {
+    const client = await pool.connect();
+    try {
+      const offset = (page - 1) * pageSize;
+      const queryText = 'SELECT * FROM tweets ORDER BY timestamp DESC LIMIT $1 OFFSET $2';
+      const values = [pageSize, offset];
+      const result = await client.query(queryText, values);
+      return result.rows;
+    } finally {
+      client.release();
+    }
+  }
+
 module.exports = {
   saveTweet,
   getTweets,
+  getTweetsWithPagination,
 };
