@@ -1,0 +1,22 @@
+# Dependency directories
+node_modules/
+
+# Logs
+logs
+*.log
+
+# Runtime data
+pids
+*.pid
+*.seed
+*.pid.lock
+
+# Directory for storing session data
+sessions
+
+# Environment variables
+.env
+
+# OS generated files
+.DS_Store
+Thumbs.db
